@@ -1,9 +1,9 @@
 'use strict';
 const express = require('express');
 const basicAuth = require('./middleware/basic.js');
-const bcrypt = require('bcrypt');
+const UserModel=require('./models/user-model.js')
 
-const Users=require('./models/user-model.js')
+const UsersCollection=require('./models/user-collection.js');
 const router = express.Router();
 
 router.post('/signin',basicAuth,signInHandler);
@@ -15,9 +15,8 @@ async function signInHandler(req, res) {
 }
 async function signUpHandler(req, res) {
    try {
-      req.body.password = await bcrypt.hash(req.body.password, 10);
-      const user = new Users(req.body);
-      const record = await user.save(req.body);
+      const usersCollection=new UsersCollection(UserModel);
+      const record = await usersCollection.create(req.body);
       res.status(200).json(record);
     } catch (e) { res.status(403).send("Error Creating User"+e.message); }  
 }

@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const base64=require('base-64')
-const Users=require('../models/user-model.js')
+const UsersCollection=require('../models/user-collection.js');
+const e = require('express');
+const UsersModel = require('../models/user-model.js');
 module.exports = async (req, res, next) => {
     
   /*
@@ -12,7 +14,7 @@ module.exports = async (req, res, next) => {
       - Split on ':' to turn it into an array
       - Pull username and password from that array
   */
-
+  console.log(req.headers.authorization);
   let basicHeaderParts = req.headers.authorization.split(' ');  // ['Basic', 'sdkjdsljd=']
   let encodedString = basicHeaderParts.pop();  // sdkjdsljd=
   let decodedString = base64.decode(encodedString); // "username:password"
@@ -26,14 +28,14 @@ module.exports = async (req, res, next) => {
     3. Either we're valid or we throw an error
   */
   try {
-    const user = await Users.findOne({ username: username })
-    const valid = await bcrypt.compare(password, user.password);
-    if (valid) {
-        req.user=user;
+    const usersCollection=new UsersCollection(UsersModel);
+    const record =await usersCollection.isValidUser({ username: username,password:password })
+    if (record) {
+        req.user=record;
         next();
     }
     else {
       next('Invalid User');
     }
-  } catch (error) { res.status(403).send("Invalid Login"); }
+  } catch (e) { res.status(403).send("Invalid Login 12"+e.message); }
 }

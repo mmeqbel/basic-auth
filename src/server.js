@@ -11,7 +11,7 @@ const errorHandler = require('./middleware/500.js');
 
 // Prepare the express app
 const app = express();
-app.use(cors);
+app.use(cors());
 
 // Process JSON input and put the data on req.body
 app.use(express.json());
