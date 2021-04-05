@@ -1,4 +1,6 @@
-# basic-auth
+# LAB - 06
+# Deployment Test
+## Author: Motasem Meqbel
 
 a REST API using Express and Mongo Db
 

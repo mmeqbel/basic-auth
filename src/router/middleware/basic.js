@@ -35,7 +35,8 @@ module.exports = async (req, res, next) => {
         next();
     }
     else {
-      next('Invalid User');
+      //next('Invalid User');
+      throw new Error('in-valid-lign')
     }
   } catch (e) { res.status(403).send("Invalid Login 12"+e.message); }
 }

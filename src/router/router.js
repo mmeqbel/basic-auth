@@ -17,7 +17,7 @@ async function signUpHandler(req, res) {
    try {
       const usersCollection=new UsersCollection(UserModel);
       const record = await usersCollection.create(req.body);
-      res.status(200).json(record);
+      res.status(201).json(record);
     } catch (e) { res.status(403).send("Error Creating User"+e.message); }  
 }
   

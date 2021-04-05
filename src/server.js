@@ -19,6 +19,9 @@ app.use(express.json());
 // Process FORM input and put the data on req.body
 app.use(express.urlencoded({ extended: true }));
 app.use(router);
+app.get("/",(req,res)=>{
+  res.json({helloword:"hello"});
+})
 app.use('*', notFoundHndler);
 app.use(errorHandler);
 
